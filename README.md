@@ -20,7 +20,7 @@ Initialized a Python virtual environment:  python -m venv venv
 
 Activated it using:
 
-(or source venv/Scripts/activate in Git Bash)
+venv/Scripts/activate in Git Bash
 
 Installed Required Dependencies - pip install django djangorestframework djangorestframework-simplejwt django-filter
 
