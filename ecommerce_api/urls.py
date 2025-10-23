@@ -38,6 +38,7 @@ def homepage(request):
     <div style="color:#0f0; font-size:16px; margin-top:10px;">
         🚀 <b>E-commerce API deployed successfully on Render!</b><br>
         Access endpoints at <code style="color:#39ff14;">/api/products/</code> and others.
+        <b>Built by Zachary K. Mohamed XO</b><br>
     </div>
     """
 
