@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: ecommerce-api
+    env: python
+    buildCommand: |
+      echo "python-3.11.9" > runtime.txt
+      pip install -r requirements.txt
+      python manage.py collectstatic --noinput
+    startCommand: gunicorn ecommerce_api.wsgi:application
