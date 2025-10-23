@@ -1,9 +1,10 @@
 from django.core.management.base import BaseCommand
-from products.models import Product
 from django.utils import timezone
+from products.models import Product, Category
+
 
 class Command(BaseCommand):
-    help = "Seeds the database with sample product data"
+    help = "Seeds the database with sample product and category data"
 
     def handle(self, *args, **kwargs):
         sample_products = [
@@ -90,13 +91,25 @@ class Command(BaseCommand):
         ]
 
         for data in sample_products:
-            product, created = Product.objects.get_or_create(
+            # Ensure the category exists
+            category_obj, _ = Category.objects.get_or_create(name=data["category"])
+
+            # Create or update the product
+            product, created = Product.objects.update_or_create(
                 name=data["name"],
-                defaults={**data, "created_at": timezone.now()}
+                defaults={
+                    "description": data["description"],
+                    "price": data["price"],
+                    "category": category_obj,
+                    "stock_quantity": data["stock_quantity"],
+                    "image_url": data["image_url"],
+                    "created_at": timezone.now(),
+                },
             )
+
             if created:
                 self.stdout.write(self.style.SUCCESS(f"✅ Created: {product.name}"))
             else:
-                self.stdout.write(self.style.WARNING(f"⚠️ Skipped (already exists): {product.name}"))
+                self.stdout.write(self.style.WARNING(f"🔁 Updated: {product.name}"))
 
         self.stdout.write(self.style.SUCCESS("🎉 Database seeding completed successfully!"))
